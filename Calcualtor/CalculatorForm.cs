@@ -10,27 +10,18 @@ namespace Calcualtor
 {
     public partial class CalculatorForm : Form
     {
-        enum Operation
-        {
-            None = -1,
-            Plus,
-            Minus,
-            Multiple,
-            Devide
-        }
-        private Operation _operation;
+        private Operators _currentOperator;
         private double _firstValue;
         private double _secondValue;
         public CalculatorForm()
         {
             InitializeComponent();
-            _operation = Operation.None;
+            _currentOperator = Operators.None;
         }
-
         private void Btn_Number(object sender, EventArgs e)
         {
             Button button = (Button)sender;
-            if(lInput.Text == "0") 
+            if (lInput.Text == "0")
                 lInput.Text = button.Text;
             else
                 lInput.Text += button.Text;
@@ -55,25 +46,25 @@ namespace Calcualtor
         private void bPlus_Click(object sender, EventArgs e)
         {
             _firstValue = double.Parse(lInput.Text);
-            _operation = Operation.Plus;
+            _currentOperator = Operators.Plus;
             lInput.Text = "0";
         }
         private void bMinus_Click(object sender, EventArgs e)
         {
             _firstValue = double.Parse(lInput.Text);
-            _operation = Operation.Minus;
+            _currentOperator = Operators.Minus;
             lInput.Text = "0";
         }
         private void bMultiple_Click(object sender, EventArgs e)
         {
             _firstValue = double.Parse(lInput.Text);
-            _operation = Operation.Multiple;
+            _currentOperator = Operators.Multiple;
             lInput.Text = "0";
         }
         private void bDevide_Click(object sender, EventArgs e)
         {
             _firstValue = double.Parse(lInput.Text);
-            _operation = Operation.Devide;
+            _currentOperator = Operators.Devide;
             lInput.Text = "0";
         }
         private void bResult_Click(object sender, EventArgs e)
@@ -81,18 +72,18 @@ namespace Calcualtor
             _secondValue = double.Parse(lInput.Text);
             double result = 0;
 
-            switch (_operation)
+            switch (_currentOperator)
             {
-                case Operation.Plus:
+                case Operators.Plus:
                     result = _firstValue + _secondValue;
                     break;
-                case Operation.Minus:
+                case Operators.Minus:
                     result = _firstValue - _secondValue;
                     break;
-                case Operation.Multiple:
+                case Operators.Multiple:
                     result = _firstValue * _secondValue;
                     break;
-                case Operation.Devide:
+                case Operators.Devide:
                     try
                     {
                         result = _firstValue / _secondValue;
@@ -103,19 +94,17 @@ namespace Calcualtor
                         MessageBox.Show("Calculator", "You can't devide on 0");
                     }
                     break;
-                case Operation.None:
-                    return;
                 default:
-                    throw new Exception("Operation error!");
+                    return;
             }
-            _operation = Operation.None;
+            _currentOperator = Operators.None;
             lInput.Text = result.ToString();
         }
         private void bClear_Click(object sender, EventArgs e)
         {
             _firstValue = _secondValue = 0;
             lInput.Text = "0";
-            _operation = Operation.None;
+            _currentOperator = Operators.None;
         }
         private void bSign_Click(object sender, EventArgs e)
         {
